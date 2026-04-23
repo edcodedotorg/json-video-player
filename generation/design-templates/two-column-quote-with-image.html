@@ -1,0 +1,160 @@
+<!--
+TEMPLATE: Two Column — Quote with Image
+DESCRIPTION: Large heading and subheading on the left, portrait image on the right.
+USE WHEN: A scene introduces a key concept, stat, or quote that pairs naturally with a visual.
+          The heading names the idea; the subheading frames or defines it; the image gives it weight.
+          For a vocabulary term with no image, use big-quote instead.
+PLACEHOLDERS:
+  - HEADING: The key term, concept, or phrase — 2 to 8 words. Large and dominant.
+  - SUBHEADING: One short sentence: a definition, a framing statement, or a clarifying line.
+                Delete the <p class="subheading"> element if not needed.
+  - IMAGE: Replace the <div class="image-placeholder"> with:
+           <img src="YOUR_PATH_OR_BASE64" alt="YOUR_ALT_TEXT" class="image">
+           Always generate with --aspect-ratio 9:16. The right column is portrait-shaped.
+  - IMAGE_CAPTION: Optional short caption below the image. Delete <p class="caption"> if not needed.
+CONSTRAINTS:
+  - Do not modify the boilerplate <style> or <script> blocks.
+  - Do not change font imports, CSS variable definitions, or layout px values.
+  - Do not add bullets or body paragraphs to the left column — heading + subheading only.
+  - Do not use var(--color-aqua) unless this slide is specifically about an AI feature.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Two Column — Quote with Image</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+      padding: 48px 64px;
+      gap: 48px;
+      align-items: stretch;
+    }
+
+    /* Left column: heading + subheading */
+    .col-quote {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+      border-left: 10px solid var(--color-teal);
+      padding-left: 40px;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .heading {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 96px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.05;
+    }
+
+    .subheading {
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Right column: portrait image */
+    .col-image {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      animation: fadeIn 0.4s ease 0.1s both;
+    }
+
+    /* Shown when no image is provided — replace with <img class="image"> */
+    .image-placeholder {
+      height: 100%;
+      aspect-ratio: 9 / 16;
+      background: var(--color-gray-medium);
+      border: 3px dashed var(--color-gray-dark);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--color-gray-dark);
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+
+    /* Applied to <img> after replacing the placeholder */
+    .image {
+      height: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    .caption {
+      font-size: 16px;
+      color: var(--color-gray-dark);
+      text-align: center;
+      font-style: italic;
+      flex-shrink: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="col-quote">
+    <h1 class="heading">HEADING</h1>
+    <p class="subheading">SUBHEADING</p>
+  </div>
+
+  <div class="col-image">
+    <!-- IMAGE: Replace this div with <img src="YOUR_PATH_OR_BASE64" alt="YOUR_ALT_TEXT" class="image"> -->
+    <div class="image-placeholder">Portrait Image</div>
+    <p class="caption">IMAGE_CAPTION</p>
+  </div>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

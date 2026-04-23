@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prompt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      background: linear-gradient(150deg, var(--color-purple) 0%, #5a2d8a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.3);
+      padding: 56px 80px;
+      max-width: 1440px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .big-text {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 112px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+    }
+
+    .secondary {
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <blockquote class="big-text">Prompt</blockquote>
+    <p class="secondary">Your instruction that shapes how AI responds.</p>
+  </div>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

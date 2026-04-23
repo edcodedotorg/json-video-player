@@ -1,0 +1,188 @@
+<!--
+TEMPLATE: Two Columns — Text + Image
+DESCRIPTION: Split slide with a title and bullet points on the left and an image on the right.
+USE WHEN: Explaining a concept alongside a diagram, screenshot, illustration, or photo.
+PLACEHOLDERS:
+  - SLIDE_TITLE: Heading for this slide (1 short phrase).
+  - BULLETS: 2–4 bullet points in the <ul class="bullets"> list. Each <li> can start with
+             <strong>Lead-in:</strong> followed by a short phrase. Keep each bullet to one line —
+             bullets complement narration, they do not replace it. Delete unused <li> elements.
+  - IMAGE: Replace the <div class="image-placeholder"> with:
+           <img src="YOUR_URL_OR_BASE64" alt="YOUR_ALT_TEXT" class="image">
+           Always use --aspect-ratio 16:9 when generating with gemini-image-gen.py.
+           During drafting, a local filepath is fine. For final production, run embed-images.py.
+  - IMAGE_CAPTION: Short description beneath the image (1 sentence max).
+                   Delete the entire <p class="caption"> element if not needed.
+CONSTRAINTS:
+  - Do not modify the boilerplate <style> or <script> blocks.
+  - Do not change font imports, CSS variable definitions, or layout px values.
+  - The .image class is pre-styled — apply it to the <img> tag when replacing the placeholder.
+  - Do not use var(--color-aqua) unless this slide is specifically about an AI feature.
+  - Do not replace bullets with prose paragraphs — if content feels like a paragraph, it belongs in narration.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Two Columns — Text + Image</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+      padding: 72px 80px;
+      gap: 64px;
+      align-items: center;
+    }
+
+    /* Left column: text */
+    .col-text {
+      flex: 55;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .title {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.15;
+      border-left: 8px solid var(--color-purple);
+      padding-left: 24px;
+    }
+
+    .bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .bullets li {
+      font-size: 26px;
+      line-height: 1.4;
+      color: var(--color-text-secondary);
+      padding-left: 28px;
+      position: relative;
+    }
+
+    .bullets li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 10px;
+      height: 10px;
+      background: var(--color-purple);
+      border-radius: 2px;
+    }
+
+    .bullets li strong {
+      color: var(--color-text-primary);
+      font-weight: 600;
+    }
+
+    /* Right column: image */
+    .col-image {
+      flex: 45;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      animation: fadeIn 0.4s ease 0.1s both;
+    }
+
+    /* Shown when no image is provided — replace this div with an <img class="image"> */
+    .image-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--color-gray-medium);
+      border: 3px dashed var(--color-gray-dark);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--color-gray-dark);
+      text-transform: uppercase;
+    }
+
+    /* Applied to <img> after replacing the placeholder */
+    .image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .caption {
+      font-size: 16px;
+      color: var(--color-gray-dark);
+      text-align: center;
+      font-style: italic;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="col-text">
+    <h1 class="title">SLIDE_TITLE</h1>
+    <ul class="bullets">
+      <li><strong>BULLET_LEAD_1:</strong> BULLET_TEXT_1</li>
+      <li><strong>BULLET_LEAD_2:</strong> BULLET_TEXT_2</li>
+      <li>BULLET_TEXT_3</li>
+    </ul>
+  </div>
+
+  <div class="col-image">
+    <!-- IMAGE: Replace this div with <img src="YOUR_URL_OR_BASE64" alt="YOUR_ALT_TEXT" class="image"> -->
+    <div class="image-placeholder">Image Placeholder</div>
+    <p class="caption">IMAGE_CAPTION</p>
+  </div>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

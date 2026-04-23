@@ -1,0 +1,131 @@
+<!--
+TEMPLATE: Header with Image
+DESCRIPTION: Full-bleed image slide with a heading banner at the top.
+USE WHEN: A scene is built around a metaphor, analogy, or mood where the image carries the visual
+          weight and the heading simply names or frames it. The image IS the content.
+          Examples: "AI is like an improv performer", "The internet as a city", a real-world scene.
+PLACEHOLDERS:
+  - SLIDE_HEADING: Short heading text — max 8 words. This is the only text on the slide.
+  - IMAGE: Replace the <div class="image-placeholder"> with:
+           <img src="YOUR_PATH_OR_BASE64" alt="YOUR_ALT_TEXT" class="image">
+           Always generate with --aspect-ratio 16:9. object-fit: cover fills the wider area.
+CONSTRAINTS:
+  - Do not modify the boilerplate <style> or <script> blocks.
+  - Do not change font imports, CSS variable definitions, or layout px values.
+  - Do not add body text, bullets, or captions — heading + image only.
+  - Do not use var(--color-aqua) unless this slide is specifically about an AI feature.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Header with Image</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      height: 140px;
+      padding: 0 64px;
+      display: flex;
+      align-items: center;
+      background: var(--color-gray-light);
+      flex-shrink: 0;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .heading {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 64px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+      border-left: 8px solid var(--color-teal);
+      padding-left: 24px;
+    }
+
+    .image-area {
+      flex: 1;
+      overflow: hidden;
+      animation: fadeIn 0.4s ease 0.1s both;
+    }
+
+    /* Shown when no image is provided — replace with <img class="image"> */
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      background: var(--color-gray-medium);
+      border-top: 3px dashed var(--color-gray-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--color-gray-dark);
+      text-transform: uppercase;
+    }
+
+    /* Applied to <img> after replacing the placeholder */
+    .image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1 class="heading">SLIDE_HEADING</h1>
+  </div>
+
+  <div class="image-area">
+    <!-- IMAGE: Replace this div with <img src="YOUR_PATH_OR_BASE64" alt="YOUR_ALT_TEXT" class="image"> -->
+    <div class="image-placeholder">Image Placeholder</div>
+  </div>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

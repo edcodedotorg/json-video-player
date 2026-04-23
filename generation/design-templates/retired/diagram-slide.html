@@ -1,0 +1,195 @@
+<!--
+TEMPLATE: Diagram Slide (SVG)
+DESCRIPTION: Slide where an SVG diagram is the primary visual element. Title is optional.
+USE WHEN: Showing a flow or process, displaying a data visualization (probability chart, bar chart),
+          illustrating relationships between concepts, or presenting a sentence-completion/highlight display.
+
+PLACEHOLDERS:
+  - SLIDE_TITLE: Short heading above the diagram. If the title would just repeat the narration,
+                 add the class "no-title" to <body> to hide it and give the SVG the full canvas.
+  - SVG_CONTENT: Replace the <div class="svg-placeholder"> with an <svg> element. See SVG notes below.
+  - ANNOTATION: Optional one-sentence explanation below the diagram.
+                Delete the entire <p class="annotation"> element if not needed.
+
+CSS CLASS TOGGLE:
+  - Default: title is visible, SVG gets the center of the canvas.
+  - Add class "no-title" to <body> to hide the title and expand the SVG to fill the full frame:
+    <body class="no-title">
+
+SVG NOTES:
+  - Use viewBox="0 0 1440 680" as a standard starting point (adjustable to your diagram's proportions).
+  - Set width="100%" height="100%" on the <svg> element so it fills its container.
+  - Reference brand colors using inline fill/stroke (hex values, since SVG cannot use CSS vars):
+      Teal:           #0093A4   Purple:   #8C52BA
+      Text Primary:   #292F36   Text Secondary: #4C5661
+      Gray Light:     #F7F8FA   Gray Medium:    #D1D4D8
+      Error Red:      #E02D16   Success Green:  #3EA33E
+  - Use font-family="Figtree, sans-serif" for SVG text elements.
+  - Keep diagrams simple: boxes, arrows, labels, and basic shapes. Avoid complex illustrations.
+
+CONSTRAINTS:
+  - Do not modify the boilerplate <style> or <script> blocks.
+  - Do not change font imports, CSS variable definitions, or layout px values.
+  - Do not use #3CFFF7 (aqua) unless this slide is specifically about an AI feature.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Diagram Slide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+      flex-direction: column;
+      padding: 48px 80px;
+      gap: 24px;
+    }
+
+    /* Title header */
+    .slide-header {
+      flex-shrink: 0;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .title {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+      border-left: 8px solid var(--color-teal);
+      padding-left: 20px;
+    }
+
+    /* SVG area */
+    .svg-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.4s ease 0.1s both;
+      min-height: 0; /* prevents flex overflow */
+    }
+
+    .svg-container svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Shown when no SVG is provided yet */
+    .svg-placeholder {
+      width: 100%;
+      height: 100%;
+      background: var(--color-gray-medium);
+      border: 3px dashed var(--color-gray-dark);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--color-gray-dark);
+    }
+
+    .svg-placeholder .placeholder-label {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .svg-placeholder .placeholder-hint {
+      font-size: 14px;
+      color: var(--color-gray-dark);
+    }
+
+    /* Annotation */
+    .annotation {
+      flex-shrink: 0;
+      font-size: 20px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      padding-left: 28px;
+      border-left: 4px solid var(--color-purple);
+      animation: fadeIn 0.4s ease 0.2s both;
+    }
+
+    /* ── no-title modifier ── */
+    /* Add class="no-title" to <body> to hide the title and give the SVG the full canvas. */
+    body.no-title {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+
+    body.no-title .slide-header {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- To hide the title and expand the SVG, change <body> to <body class="no-title"> -->
+
+  <div class="slide-header">
+    <h1 class="title">SLIDE_TITLE</h1>
+  </div>
+
+  <div class="svg-container">
+    <!--
+      SVG_CONTENT: Replace this div with your <svg> element.
+      Recommended starting structure:
+        <svg viewBox="0 0 1440 680" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          ...diagram content...
+        </svg>
+      See SVG NOTES in the comment block at the top of this file.
+    -->
+    <div class="svg-placeholder">
+      <span class="placeholder-label">SVG Diagram</span>
+      <span class="placeholder-hint">Replace this div with an &lt;svg&gt; element</span>
+    </div>
+  </div>
+
+  <p class="annotation">ANNOTATION</p>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

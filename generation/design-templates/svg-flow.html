@@ -1,0 +1,207 @@
+<!--
+PATTERN: Horizontal Flow Diagram
+USE WHEN: Showing a linear process, pipeline, or sequence of steps.
+EXAMPLES: Prompt → Pattern → Statistics → Response; Input → Processing → Output
+
+PLACEHOLDERS — replace ALL_CAPS values:
+  BOX_N_LABEL     Main label text in each box (e.g. "YOUR PROMPT") — use two lines if needed
+  BOX_N_SUBTEXT   Small descriptive text inside each box (e.g. '"Tell me a story..."')
+  BOX_N_COLOR     Fill color: use "teal" (#0093A4), "purple" (#8C52BA), or "gray" (#F7F8FA)
+  SLIDE_TITLE     Heading shown above the diagram
+  ANNOTATION      One-sentence explanation below (delete the <p> element if not needed)
+
+BOX COLOR GUIDE (from design vocabulary):
+  Teal   → user-facing input, prompts, triggers
+  Purple → AI processing, internal steps, pattern matching
+  Gray   → outputs, results, responses (add stroke="#D1D4D8" stroke-width="3" for gray boxes)
+
+TO REMOVE A BOX: Delete the box group and its preceding arrow. Adjust x positions.
+TO ADD A BOX:    Duplicate a box group; shift x by 370px; add an arrow before it.
+
+Color reference (SVG cannot use CSS vars):
+  Teal: #0093A4 | Purple: #8C52BA | Gray light: #F7F8FA | Gray medium: #D1D4D8
+  Text primary: #292F36 | Text secondary: #4C5661 | White: #ffffff
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flow Diagram</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7;
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+      flex-direction: column;
+      padding: 48px 80px;
+      gap: 24px;
+    }
+    .slide-header { flex-shrink: 0; animation: fadeIn 0.4s ease both; }
+    .title {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+      border-left: 8px solid var(--color-teal);
+      padding-left: 20px;
+    }
+    .svg-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.4s ease 0.1s both;
+      min-height: 0;
+    }
+    .svg-container svg { width: 100%; height: 100%; }
+    .annotation {
+      flex-shrink: 0;
+      font-size: 20px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      padding-left: 28px;
+      border-left: 4px solid var(--color-purple);
+      animation: fadeIn 0.4s ease 0.2s both;
+    }
+    body.no-title { padding-top: 40px; padding-bottom: 40px; }
+    body.no-title .slide-header { display: none; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sequence vocabulary comment — fill in before generating connected slides:
+       Sequence: [NAME] | [ConceptA]=[color] | [ConceptB]=[color] | arrows=2px #292F36 -->
+
+  <div class="slide-header">
+    <h1 class="title">SLIDE_TITLE</h1>
+  </div>
+
+  <div class="svg-container">
+    <!--
+      4-box horizontal flow. Each box: 280px wide × 220px tall, rx=20.
+      Horizontal layout: box@40, arrow@325–395, box@405, arrow@690–760, box@770, arrow@1055–1125, box@1135
+      All boxes vertically centered at y=160 (top) to y=380 (bottom), center y=270.
+      Arrow tips at x=395, 760, 1125 respectively.
+
+      To change a box color:
+        Teal box:   fill="#0093A4"
+        Purple box: fill="#8C52BA"
+        Gray box:   fill="#F7F8FA" stroke="#D1D4D8" stroke-width="3"
+    -->
+    <svg viewBox="0 0 1440 560" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#292F36"/>
+        </marker>
+      </defs>
+
+      <!-- ── Box 1 ── change fill to match visual vocabulary -->
+      <rect x="40" y="160" width="280" height="220" rx="20" fill="#0093A4"/>
+      <!-- Label line 1 -->
+      <text x="180" y="234" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="white">BOX_1_LABEL</text>
+      <!-- Label line 2 (delete if single-line label) -->
+      <text x="180" y="262" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="white">BOX_1_LABEL_2</text>
+      <!-- Subtext -->
+      <text x="180" y="318" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.85)">BOX_1_SUBTEXT</text>
+      <text x="180" y="342" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.85)">BOX_1_SUBTEXT_2</text>
+
+      <!-- ── Arrow 1→2 ── -->
+      <line x1="325" y1="270" x2="395" y2="270" stroke="#292F36" stroke-width="2"
+            marker-end="url(#arrowhead)"/>
+
+      <!-- ── Box 2 ── -->
+      <rect x="405" y="160" width="280" height="220" rx="20" fill="#8C52BA"/>
+      <text x="545" y="234" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="white">BOX_2_LABEL</text>
+      <text x="545" y="262" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="white">BOX_2_LABEL_2</text>
+      <text x="545" y="318" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.85)">BOX_2_SUBTEXT</text>
+      <text x="545" y="342" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.85)">BOX_2_SUBTEXT_2</text>
+
+      <!-- ── Arrow 2→3 ── -->
+      <line x1="690" y1="270" x2="760" y2="270" stroke="#292F36" stroke-width="2"
+            marker-end="url(#arrowhead)"/>
+
+      <!-- ── Box 3 ── -->
+      <rect x="770" y="160" width="280" height="220" rx="20" fill="#8C52BA"/>
+      <text x="910" y="234" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="white">BOX_3_LABEL</text>
+      <text x="910" y="262" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="white">BOX_3_LABEL_2</text>
+      <text x="910" y="318" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.85)">BOX_3_SUBTEXT</text>
+      <text x="910" y="342" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.85)">BOX_3_SUBTEXT_2</text>
+
+      <!-- ── Arrow 3→4 ── -->
+      <line x1="1055" y1="270" x2="1125" y2="270" stroke="#292F36" stroke-width="2"
+            marker-end="url(#arrowhead)"/>
+
+      <!-- ── Box 4 — gray output box ── -->
+      <rect x="1135" y="160" width="280" height="220" rx="20"
+            fill="#F7F8FA" stroke="#D1D4D8" stroke-width="3"/>
+      <text x="1275" y="234" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="#292F36">BOX_4_LABEL</text>
+      <text x="1275" y="262" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="#292F36">BOX_4_LABEL_2</text>
+      <text x="1275" y="318" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="#4C5661">BOX_4_SUBTEXT</text>
+      <text x="1275" y="342" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="#4C5661">BOX_4_SUBTEXT_2</text>
+
+      <!-- ── Bottom annotation ── delete if not needed -->
+      <text x="720" y="480" font-family="Figtree, sans-serif" font-size="22"
+            text-anchor="middle" fill="#4C5661">BOTTOM_ANNOTATION</text>
+
+    </svg>
+  </div>
+
+  <!-- Delete this element if no annotation needed -->
+  <p class="annotation">ANNOTATION</p>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

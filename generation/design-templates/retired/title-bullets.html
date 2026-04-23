@@ -1,0 +1,137 @@
+<!--
+TEMPLATE: Title + Bullets
+DESCRIPTION: Instructional slide with a title and a structured bullet list.
+USE WHEN: Presenting a list of concepts, steps, rules, or key points. Best with 3–6 bullets.
+PLACEHOLDERS:
+  - SLIDE_TITLE: Heading for this slide (1 short phrase).
+  - BULLET_LEAD_N: Bold lead-in word or short phrase for each bullet (e.g. "Variables:", "Step 1:").
+                   If a bullet has no lead-in, delete the <span class="bullet-lead"> and its colon.
+  - BULLET_TEXT_N: Supporting sentence after the lead-in. 1 sentence max.
+  - Add or remove <li> elements as needed. 3–6 bullets recommended for readability.
+CONSTRAINTS:
+  - Do not modify the boilerplate <style> or <script> blocks.
+  - Do not change font imports, CSS variable definitions, or layout px values.
+  - Do not use var(--color-aqua) unless this slide is specifically about an AI feature.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title + Bullets</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+    }
+
+    .accent-bar {
+      width: 16px;
+      height: 900px;
+      background: var(--color-teal);
+      flex-shrink: 0;
+    }
+
+    .slide-content {
+      flex: 1;
+      padding: 80px 96px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .title {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 48px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 48px;
+      line-height: 1.1;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      font-size: 24px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+
+    .bullet-list li::before {
+      content: '';
+      width: 14px;
+      height: 14px;
+      background: var(--color-purple);
+      border-radius: 2px;
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    .bullet-lead {
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="accent-bar"></div>
+  <div class="slide-content">
+    <h1 class="title">SLIDE_TITLE</h1>
+    <ul class="bullet-list">
+      <li><span><span class="bullet-lead">BULLET_LEAD_1: </span>BULLET_TEXT_1</span></li>
+      <li><span><span class="bullet-lead">BULLET_LEAD_2: </span>BULLET_TEXT_2</span></li>
+      <li><span><span class="bullet-lead">BULLET_LEAD_3: </span>BULLET_TEXT_3</span></li>
+      <li><span><span class="bullet-lead">BULLET_LEAD_4: </span>BULLET_TEXT_4</span></li>
+    </ul>
+  </div>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vague vs. Specific Prompt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      height: 140px;
+      padding: 0 64px;
+      display: flex;
+      align-items: center;
+      background: var(--color-gray-light);
+      flex-shrink: 0;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .heading {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 64px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+      border-left: 8px solid var(--color-teal);
+      padding-left: 24px;
+    }
+
+    .svg-area {
+      flex: 1;
+      padding: 24px 64px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      animation: fadeIn 0.4s ease 0.1s both;
+    }
+
+    .svg-area svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── no-title modifier ── */
+    body.no-title .header { display: none; }
+    body.no-title .svg-area { padding-top: 48px; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="no-title">
+  <!-- Sequence: ThePrompt | user-prompt=#0093A4 | ai-processing=#8C52BA | output=#F7F8FA/#D1D4D8 | arrows=2px #292F36 -->
+
+  <div class="header">
+    <h1 class="heading">Vague vs. Specific Prompt</h1>
+  </div>
+
+  <div class="svg-area">
+    <svg viewBox="0 0 1440 820" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#292F36"/>
+        </marker>
+      </defs>
+
+      <!-- ══ ROW 1: VAGUE PROMPT ══ -->
+
+      <!-- Row 1 label pill -->
+      <rect x="560" y="24" width="320" height="44" rx="22" fill="#D1D4D8"/>
+      <text x="720" y="52" font-family="Figtree, sans-serif" font-size="20"
+            font-weight="600" text-anchor="middle" fill="#5F6872" letter-spacing="1">VAGUE PROMPT</text>
+
+      <!-- Box 1 — teal (user prompt) -->
+      <rect x="80" y="85" width="320" height="185" rx="18" fill="#0093A4"/>
+      <text x="240" y="163" font-family="Figtree, sans-serif" font-size="26"
+            font-weight="600" text-anchor="middle" fill="white">"Give me</text>
+      <text x="240" y="194" font-family="Figtree, sans-serif" font-size="26"
+            font-weight="600" text-anchor="middle" fill="white">gift ideas"</text>
+      <text x="240" y="234" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.8)">vague instruction</text>
+
+      <!-- Arrow 1→2 row 1 -->
+      <line x1="402" y1="177" x2="488" y2="177" stroke="#292F36" stroke-width="2"
+            marker-end="url(#arrowhead)"/>
+
+      <!-- Box 2 — purple (AI) -->
+      <rect x="500" y="85" width="320" height="185" rx="18" fill="#8C52BA"/>
+      <text x="660" y="168" font-family="Figtree, sans-serif" font-size="36"
+            font-weight="600" text-anchor="middle" fill="white">AI</text>
+      <text x="660" y="210" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.8)">finds common patterns</text>
+
+      <!-- Arrow 2→3 row 1 -->
+      <line x1="822" y1="177" x2="908" y2="177" stroke="#292F36" stroke-width="2"
+            marker-end="url(#arrowhead)"/>
+
+      <!-- Box 3 — gray (output) -->
+      <rect x="920" y="85" width="440" height="185" rx="18" fill="#F7F8FA" stroke="#D1D4D8" stroke-width="3"/>
+      <text x="1140" y="156" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="#292F36">Generic gift list</text>
+      <text x="1140" y="185" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="#4C5661">• Books  • Candles  • Gift cards</text>
+      <text x="1140" y="213" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="#4C5661">• Socks  • Chocolates  ...</text>
+      <text x="1140" y="243" font-family="Figtree, sans-serif" font-size="15"
+            text-anchor="middle" fill="#5F6872">not very helpful</text>
+
+      <!-- ══ DIVIDER ══ -->
+      <line x1="60" y1="336" x2="1380" y2="336" stroke="#D1D4D8" stroke-width="2" stroke-dasharray="8,6"/>
+      <!-- VS badge -->
+      <rect x="670" y="318" width="100" height="40" rx="20" fill="#292F36"/>
+      <text x="720" y="344" font-family="Figtree, sans-serif" font-size="18"
+            font-weight="600" text-anchor="middle" fill="white">VS</text>
+
+      <!-- ══ ROW 2: SPECIFIC PROMPT ══ -->
+
+      <!-- Row 2 label pill -->
+      <rect x="540" y="366" width="360" height="44" rx="22" fill="#0093A4"/>
+      <text x="720" y="394" font-family="Figtree, sans-serif" font-size="20"
+            font-weight="600" text-anchor="middle" fill="white" letter-spacing="1">SPECIFIC PROMPT</text>
+
+      <!-- Box 1 — teal (specific user prompt) -->
+      <rect x="80" y="428" width="320" height="185" rx="18" fill="#0093A4"/>
+      <text x="240" y="497" font-family="Figtree, sans-serif" font-size="20"
+            font-weight="600" text-anchor="middle" fill="white">"15-yr-old artist</text>
+      <text x="240" y="522" font-family="Figtree, sans-serif" font-size="20"
+            font-weight="600" text-anchor="middle" fill="white">who loves</text>
+      <text x="240" y="547" font-family="Figtree, sans-serif" font-size="20"
+            font-weight="600" text-anchor="middle" fill="white">watercolor"</text>
+      <text x="240" y="585" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.8)">specific instruction</text>
+
+      <!-- Arrow 1→2 row 2 -->
+      <line x1="402" y1="520" x2="488" y2="520" stroke="#292F36" stroke-width="2"
+            marker-end="url(#arrowhead)"/>
+
+      <!-- Box 2 — purple (AI) -->
+      <rect x="500" y="428" width="320" height="185" rx="18" fill="#8C52BA"/>
+      <text x="660" y="511" font-family="Figtree, sans-serif" font-size="36"
+            font-weight="600" text-anchor="middle" fill="white">AI</text>
+      <text x="660" y="553" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="rgba(255,255,255,0.8)">finds relevant patterns</text>
+
+      <!-- Arrow 2→3 row 2 -->
+      <line x1="822" y1="520" x2="908" y2="520" stroke="#292F36" stroke-width="2"
+            marker-end="url(#arrowhead)"/>
+
+      <!-- Box 3 — gray (specific output) -->
+      <rect x="920" y="428" width="440" height="185" rx="18" fill="#F7F8FA" stroke="#0093A4" stroke-width="3"/>
+      <text x="1140" y="496" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" text-anchor="middle" fill="#292F36">Relevant suggestions</text>
+      <text x="1140" y="525" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="#4C5661">• Watercolor sketchbook</text>
+      <text x="1140" y="551" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="#4C5661">• Art supply subscription</text>
+      <text x="1140" y="577" font-family="Figtree, sans-serif" font-size="17"
+            text-anchor="middle" fill="#4C5661">• Online painting class</text>
+      <text x="1140" y="597" font-family="Figtree, sans-serif" font-size="15"
+            text-anchor="middle" fill="#0093A4">much more helpful!</text>
+
+      <!-- ══ CAPTION ══ -->
+      <text x="720" y="680" font-family="Figtree, sans-serif" font-size="22"
+            text-anchor="middle" fill="#4C5661">Specific details help AI find more relevant patterns.</text>
+
+    </svg>
+  </div>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

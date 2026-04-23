@@ -1,0 +1,200 @@
+<!--
+PATTERN: Horizontal Bar Chart
+USE WHEN: Showing ranked probabilities, comparisons, or "more vs. less" relationships.
+EXAMPLES: Word probability after a prompt; feature comparison; frequency rankings.
+
+PLACEHOLDERS — replace ALL_CAPS values:
+  CHART_TITLE        Heading above the chart (e.g. "Next word probability:")
+  PROMPT_TEXT        Optional sentence shown in a card at the top (delete the card group if not needed)
+  LABEL_N            Row label on the left (e.g. "squirrel", "mailman")
+  BAR_WIDTH_N        Width of the bar in SVG units. Scale: 600 = 100%, so 45% → width="270"
+  PCT_N              Percentage label shown after the bar (e.g. "45%")
+  SLIDE_TITLE        Heading shown in the title strip above the diagram
+  ANNOTATION         One-sentence explanation below (delete the <p> element if not needed)
+
+BAR COLOR GUIDE:
+  High-value bars (top 2):  fill="#0093A4"  (teal)
+  Low-value bars (rest):    fill="#D1D4D8"  (gray medium) with fill="#4C5661" on the pct label
+
+LAYOUT:
+  5 rows, each 76px tall (52px bar + 24px gap). Row y-positions: 182, 258, 334, 410, 486.
+  Labels right-aligned at x=290. Bars start at x=310.
+  Max bar width = 600px (represents 100%).
+
+Color reference (SVG cannot use CSS vars):
+  Teal: #0093A4 | Purple: #8C52BA | Gray light: #F7F8FA | Gray medium: #D1D4D8
+  Text primary: #292F36 | Text secondary: #4C5661 | White: #ffffff
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bar Chart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7;
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+      flex-direction: column;
+      padding: 48px 80px;
+      gap: 24px;
+    }
+    .slide-header { flex-shrink: 0; animation: fadeIn 0.4s ease both; }
+    .title {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+      border-left: 8px solid var(--color-teal);
+      padding-left: 20px;
+    }
+    .svg-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.4s ease 0.1s both;
+      min-height: 0;
+    }
+    .svg-container svg { width: 100%; height: 100%; }
+    .annotation {
+      flex-shrink: 0;
+      font-size: 20px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      padding-left: 28px;
+      border-left: 4px solid var(--color-purple);
+      animation: fadeIn 0.4s ease 0.2s both;
+    }
+    body.no-title { padding-top: 40px; padding-bottom: 40px; }
+    body.no-title .slide-header { display: none; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="no-title">
+  <!-- Sequence vocabulary comment — fill in before generating connected slides:
+       Sequence: [NAME] | bars-high=#0093A4 | bars-low=#D1D4D8 | labels=#292F36 -->
+
+  <div class="slide-header">
+    <h1 class="title">SLIDE_TITLE</h1>
+  </div>
+
+  <div class="svg-container">
+    <!--
+      Bar chart layout (viewBox 0 0 1440 680):
+        Prompt card (optional): y=30–106, centered, width=1040
+        Chart title:  y=148
+        Row 1 bars:   y=182  (baseline y=210)
+        Row 2 bars:   y=258  (baseline y=286)
+        Row 3 bars:   y=334  (baseline y=362)
+        Row 4 bars:   y=410  (baseline y=438)
+        Row 5 bars:   y=486  (baseline y=514)
+        Annotation:   y=610
+
+      Labels: right-aligned at x=290, font-size=26, font-weight=600
+      Bars:   start at x=310, height=52, rx=6
+      Pct:    x = 310 + BAR_WIDTH + 8, same baseline y as label
+
+      Scale reference:
+        100% → width=600    75% → width=450    50% → width=300
+         45% → width=270    35% → width=210    25% → width=150
+         10% → width=60      6% → width=36      4% → width=24
+    -->
+    <svg viewBox="0 0 1440 680" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- ── Optional prompt reminder card — delete this group if not needed ── -->
+      <rect x="200" y="30" width="1040" height="76" rx="16"
+            fill="#F7F8FA" stroke="#D1D4D8" stroke-width="2"/>
+      <text x="720" y="79" font-family="Figtree, sans-serif" font-size="28"
+            font-weight="600" text-anchor="middle" fill="#292F36">PROMPT_TEXT</text>
+
+      <!-- Chart title -->
+      <text x="310" y="148" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" fill="#4C5661">CHART_TITLE</text>
+
+      <!-- ── Row 1 — teal (high value) ── -->
+      <text x="290" y="210" font-family="Figtree, sans-serif" font-size="26"
+            font-weight="600" text-anchor="end" fill="#292F36">LABEL_1</text>
+      <rect x="310" y="182" width="BAR_WIDTH_1" height="52" rx="6" fill="#0093A4"/>
+      <!-- Pct label: x = 310 + BAR_WIDTH_1 + 8 -->
+      <text x="LABEL_1_X" y="214" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" fill="white">PCT_1</text>
+
+      <!-- ── Row 2 — teal (high value) ── -->
+      <text x="290" y="286" font-family="Figtree, sans-serif" font-size="26"
+            font-weight="600" text-anchor="end" fill="#292F36">LABEL_2</text>
+      <rect x="310" y="258" width="BAR_WIDTH_2" height="52" rx="6" fill="#0093A4"/>
+      <text x="LABEL_2_X" y="290" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" fill="white">PCT_2</text>
+
+      <!-- ── Row 3 — gray (low value) ── -->
+      <text x="290" y="362" font-family="Figtree, sans-serif" font-size="26"
+            font-weight="600" text-anchor="end" fill="#292F36">LABEL_3</text>
+      <rect x="310" y="334" width="BAR_WIDTH_3" height="52" rx="6" fill="#D1D4D8"/>
+      <text x="LABEL_3_X" y="366" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" fill="#4C5661">PCT_3</text>
+
+      <!-- ── Row 4 — gray (low value) ── -->
+      <text x="290" y="438" font-family="Figtree, sans-serif" font-size="26"
+            font-weight="600" text-anchor="end" fill="#292F36">LABEL_4</text>
+      <rect x="310" y="410" width="BAR_WIDTH_4" height="52" rx="6" fill="#D1D4D8"/>
+      <text x="LABEL_4_X" y="442" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" fill="#4C5661">PCT_4</text>
+
+      <!-- ── Row 5 — gray (low value) ── -->
+      <text x="290" y="514" font-family="Figtree, sans-serif" font-size="26"
+            font-weight="600" text-anchor="end" fill="#292F36">LABEL_5</text>
+      <rect x="310" y="486" width="BAR_WIDTH_5" height="52" rx="6" fill="#D1D4D8"/>
+      <text x="LABEL_5_X" y="518" font-family="Figtree, sans-serif" font-size="22"
+            font-weight="600" fill="#4C5661">PCT_5</text>
+
+      <!-- Bottom annotation -->
+      <text x="720" y="610" font-family="Figtree, sans-serif" font-size="22"
+            text-anchor="middle" fill="#4C5661">BOTTOM_ANNOTATION</text>
+
+    </svg>
+  </div>
+
+  <!-- Delete this element if no annotation needed -->
+  <p class="annotation">ANNOTATION</p>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

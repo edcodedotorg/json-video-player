@@ -1,0 +1,79 @@
+<!--
+BOILERPLATE — json-video-player slide system
+============================================
+Every slide must include BOTH parts below, verbatim.
+Do NOT modify anything inside the "do not modify" markers.
+
+PART 1 goes inside <head>, after <meta charset="UTF-8">.
+PART 2 goes at the very end of <body>, before </body>.
+
+Your slide-specific <style> rules go AFTER the closing comment of PART 1,
+still inside the same <style> block. See the templates for examples.
+-->
+
+<!-- ═══════════════════════════════════════════════════════════
+     PART 1 — paste into <head>
+     ═══════════════════════════════════════════════════════════ -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    /* ── Slide-specific styles go here ── */
+
+  </style>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PART 2 — paste at end of <body>
+     ═══════════════════════════════════════════════════════════ -->
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     COLOR REFERENCE (for SVG inline styles — SVG cannot use CSS vars)
+     ═══════════════════════════════════════════════════════════
+
+     Teal:            #0093A4    Purple:          #8C52BA
+     Aqua (AI only):  #3CFFF7    Error red:       #E02D16
+     Warning yellow:  #F9CB28    Success green:   #3EA33E
+     Info blue:       #1892E3
+
+     Text primary:    #292F36    Text secondary:  #4C5661
+     Gray light:      #F7F8FA    Gray medium:     #D1D4D8
+     Gray dark:       #5F6872    White:           #ffffff
+
+     ═══════════════════════════════════════════════════════════ -->

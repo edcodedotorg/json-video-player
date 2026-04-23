@@ -1,0 +1,184 @@
+<!--
+TEMPLATE: Bullets with Image
+DESCRIPTION: Heading banner at top, then large-font bullets on the left and a portrait image on the right.
+USE WHEN: 2–3 key takeaways need visual reinforcement. The bullets name the points; the image grounds them.
+          Use this over header-with-image when the scene has distinct enumerable points, not just a single idea.
+PLACEHOLDERS:
+  - SLIDE_HEADING: Short heading — max 8 words.
+  - BULLETS: Exactly 2 or 3 <li> elements. Each bullet must be 4–5 words maximum.
+             The 52px Barlow font makes longer text wrap badly — keep bullets to short clauses.
+             Delete the unused <li>. Do NOT add a 4th bullet; split into two slides instead.
+  - IMAGE: Replace the <div class="image-placeholder"> with:
+           <img src="YOUR_PATH_OR_BASE64" alt="YOUR_ALT_TEXT" class="image">
+           Always generate with --aspect-ratio 9:16. The right column is portrait-shaped.
+CONSTRAINTS:
+  - Do not modify the boilerplate <style> or <script> blocks.
+  - Do not change font imports, CSS variable definitions, or layout px values.
+  - Maximum 3 bullets. Enforce this strictly — more bullets means smaller font, defeating the purpose.
+  - Do not use var(--color-aqua) unless this slide is specifically about an AI feature.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bullets with Image</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      height: 140px;
+      padding: 0 64px;
+      display: flex;
+      align-items: center;
+      background: var(--color-gray-light);
+      flex-shrink: 0;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .heading {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 64px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+      border-left: 8px solid var(--color-teal);
+      padding-left: 24px;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      gap: 48px;
+      padding: 32px 64px 48px;
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    /* Left column: bullets */
+    .col-bullets {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      animation: fadeIn 0.4s ease 0.1s both;
+    }
+
+    .bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .bullets li {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 52px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+      border-left: 6px solid var(--color-purple);
+      padding-left: 24px;
+    }
+
+    /* Right column: portrait image */
+    .col-image {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      animation: fadeIn 0.4s ease 0.15s both;
+    }
+
+    /* Shown when no image is provided — replace with <img class="image"> */
+    .image-placeholder {
+      height: 100%;
+      aspect-ratio: 9 / 16;
+      background: var(--color-gray-medium);
+      border: 3px dashed var(--color-gray-dark);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--color-gray-dark);
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+
+    /* Applied to <img> after replacing the placeholder */
+    .image {
+      height: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1 class="heading">SLIDE_HEADING</h1>
+  </div>
+
+  <div class="main">
+    <div class="col-bullets">
+      <!-- MAX 3 bullets. Each bullet: 4–5 words. Delete unused <li>. -->
+      <ul class="bullets">
+        <li>BULLET_1</li>
+        <li>BULLET_2</li>
+        <li>BULLET_3</li>
+      </ul>
+    </div>
+
+    <div class="col-image">
+      <!-- IMAGE: Replace this div with <img src="YOUR_PATH_OR_BASE64" alt="YOUR_ALT_TEXT" class="image"> -->
+      <div class="image-placeholder">Portrait Image</div>
+    </div>
+  </div>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

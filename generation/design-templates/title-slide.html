@@ -1,0 +1,119 @@
+<!--
+TEMPLATE: Title Slide
+DESCRIPTION: Opening or chapter-break slide with a large centered title on a full-bleed gradient background.
+USE WHEN: Starting a new video, introducing a new section, or transitioning between major topics.
+PLACEHOLDERS:
+  - EYEBROW_LABEL: Small label above the title (e.g. "Unit 3 · Lesson 2" or "Introduction").
+                   Delete the entire <p class="eyebrow"> element if not needed.
+  - SLIDE_TITLE: Main title text. Keep short — 1 to 8 words.
+  - SLIDE_SUBTITLE: One supporting sentence beneath the title.
+                    Delete the entire <p class="subtitle"> element if not needed.
+CONSTRAINTS:
+  - Do not modify the boilerplate <style> or <script> blocks.
+  - Do not change font imports, CSS variable definitions, or layout px values.
+  - Do not use var(--color-aqua) unless this slide is specifically about an AI feature.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title Slide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7; /* AI features only */
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-teal) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide-content {
+      text-align: center;
+      max-width: 1400px;
+      padding: 48px;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .eyebrow {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 24px;
+    }
+
+    .title {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 104px;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .divider {
+      width: 80px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.5);
+      margin: 0 auto 24px;
+      border-radius: 2px;
+    }
+
+    .subtitle {
+      font-size: 36px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-content">
+    <p class="eyebrow">EYEBROW_LABEL</p>
+    <h1 class="title">SLIDE_TITLE</h1>
+    <div class="divider"></div>
+    <p class="subtitle">SLIDE_SUBTITLE</p>
+  </div>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>

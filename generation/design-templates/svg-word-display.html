@@ -1,0 +1,219 @@
+<!--
+PATTERN: Sentence Completion + Word Probability Pills
+USE WHEN: Showing a fill-in-the-blank sentence, word prediction displays, or vocabulary comparisons.
+EXAMPLES: "The dog barked at the ___?"; word probability distributions; pattern recognition demos.
+
+PLACEHOLDERS — replace ALL_CAPS values:
+  SENTENCE_PREFIX    The sentence text before the blank (e.g. "The dog barked at the ")
+  BLANK_WIDTH        Approximate width of the blank underscores in px (default: leave as _______)
+  QUESTION_TEXT      Label below the blank (e.g. "What word comes next?")
+  WORD_HIGH_1        First high-probability word (large purple pill)
+  WORD_HIGH_2        Second high-probability word (large purple pill)
+  WORD_LOW_1..3      Low-probability words (small gray pills)
+  CAPTION_TEXT       Explanation below the pills (e.g. "Bigger = seen more often in real life")
+  SLIDE_TITLE        Heading above diagram (body has class="no-title" by default — remove to show)
+
+PILL SIZE GUIDE:
+  High-probability pills: 480px × 130px, rx=65, fill="#8C52BA", font-size=42
+  Low-probability pills:  240px × 80px,  rx=40, fill="#D1D4D8", font-size=28
+  Center each pill: text x = rect_x + rect_width/2
+
+SENTENCE CARD:
+  Uses text-anchor="middle" on one <text> element with tspans for mixed colors.
+  The teal tspan (_______) is automatically centered with the rest of the sentence — no x math needed.
+
+Color reference (SVG cannot use CSS vars):
+  Teal: #0093A4 | Purple: #8C52BA | Gray light: #F7F8FA | Gray medium: #D1D4D8
+  Text primary: #292F36 | Text secondary: #4C5661 | White: #ffffff
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Word Display</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Boilerplate: do not modify ── */
+    :root {
+      --color-teal:           #0093A4;
+      --color-purple:         #8C52BA;
+      --color-aqua:           #3CFFF7;
+      --color-error:          #E02D16;
+      --color-warning:        #F9CB28;
+      --color-success:        #3EA33E;
+      --color-info:           #1892E3;
+      --color-text-primary:   #292F36;
+      --color-text-secondary: #4C5661;
+      --color-gray-light:     #F7F8FA;
+      --color-gray-medium:    #D1D4D8;
+      --color-gray-dark:      #5F6872;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      transform-origin: top left;
+      font-family: 'Figtree', sans-serif;
+      background: var(--color-gray-light);
+      color: var(--color-text-primary);
+    }
+    /* ── End boilerplate ── */
+
+    body {
+      display: flex;
+      flex-direction: column;
+      padding: 48px 80px;
+      gap: 24px;
+    }
+    .slide-header { flex-shrink: 0; animation: fadeIn 0.4s ease both; }
+    .title {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      line-height: 1.1;
+      border-left: 8px solid var(--color-teal);
+      padding-left: 20px;
+    }
+    .svg-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.4s ease 0.1s both;
+      min-height: 0;
+    }
+    .svg-container svg { width: 100%; height: 100%; }
+    .annotation {
+      flex-shrink: 0;
+      font-size: 20px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      padding-left: 28px;
+      border-left: 4px solid var(--color-purple);
+      animation: fadeIn 0.4s ease 0.2s both;
+    }
+    body.no-title { padding-top: 40px; padding-bottom: 40px; }
+    body.no-title .slide-header { display: none; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="no-title">
+  <!-- Sequence vocabulary comment — fill in before generating connected slides:
+       Sequence: [NAME] | sentence-frame=#F7F8FA/#D1D4D8 | blank=#0093A4 | high-prob=#8C52BA | low-prob=#D1D4D8 -->
+
+  <div class="slide-header">
+    <h1 class="title">SLIDE_TITLE</h1>
+  </div>
+
+  <div class="svg-container">
+    <!--
+      Two-section layout (viewBox 0 0 1440 680):
+
+      SECTION 1 — Sentence card (y=60 to y=310):
+        Card rect: x=100, y=60, w=1240, h=250, rx=24
+        Eyebrow:   y=118, font-size=24, text-anchor=middle, fill=#4C5661
+        Sentence:  y=210, font-size=54, font-weight=600, text-anchor=middle
+                   Uses tspans for mixed color — safe to add/remove words freely
+        Badge:     rect below blank, y=238, fill=#0093A4, text y=262, fill=white
+
+      SECTION 2 — Word pills (y=330 to y=530):
+        Two large purple pills, centered with gap:
+          Pill 1: x=120,  y=330, w=480, h=130
+          Pill 2: x=840,  y=330, w=480, h=130
+          (gap connector "+" centered at x=720, y=400)
+        Three small gray pills:
+          Pill A: x=160,  y=480, w=240, h=80
+          Pill B: x=440,  y=480, w=240, h=80
+          Pill C: x=720,  y=480, w=240, h=80
+          Pill D: x=1000, y=480, w=260, h=80  (optional 4th)
+
+      Legend + caption: y=570 (legend), y=618 (caption)
+    -->
+    <svg viewBox="0 0 1440 680" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- ── SECTION 1: Sentence card ── -->
+
+      <!-- Optional eyebrow label above the card -->
+      <text x="720" y="52" font-family="Figtree, sans-serif" font-size="24"
+            font-weight="600" text-anchor="middle" fill="#4C5661" letter-spacing="2">EYEBROW_LABEL</text>
+
+      <!-- Sentence frame card -->
+      <rect x="100" y="62" width="1240" height="250" rx="24"
+            fill="#F7F8FA" stroke="#D1D4D8" stroke-width="3"/>
+
+      <!-- Sentence text — the tspans flow naturally; text-anchor=middle centers the whole line -->
+      <text x="720" y="206" font-family="Figtree, sans-serif" font-size="54"
+            font-weight="600" text-anchor="middle">
+        <tspan fill="#292F36">SENTENCE_PREFIX </tspan><tspan fill="#0093A4">_______</tspan><tspan fill="#292F36"> ?</tspan>
+      </text>
+
+      <!-- "missing word" badge — centered under the teal blank -->
+      <rect x="584" y="232" width="272" height="40" rx="12" fill="#0093A4"/>
+      <text x="720" y="257" font-family="Figtree, sans-serif" font-size="18"
+            font-weight="600" text-anchor="middle" fill="white">missing word</text>
+
+      <!-- Question below card -->
+      <text x="720" y="344" font-family="Figtree, sans-serif" font-size="28"
+            font-weight="600" text-anchor="middle" fill="#292F36">QUESTION_TEXT</text>
+
+      <!-- ── SECTION 2: Word probability pills ── -->
+
+      <!-- High-probability pill 1 (purple, large) -->
+      <rect x="120" y="372" width="480" height="130" rx="65" fill="#8C52BA"/>
+      <text x="360" y="450" font-family="Figtree, sans-serif" font-size="42"
+            font-weight="600" text-anchor="middle" fill="white">WORD_HIGH_1</text>
+
+      <!-- Connector -->
+      <text x="720" y="446" font-family="Figtree, sans-serif" font-size="28"
+            font-weight="600" text-anchor="middle" fill="#8C52BA">+</text>
+
+      <!-- High-probability pill 2 (purple, large) -->
+      <rect x="840" y="372" width="480" height="130" rx="65" fill="#8C52BA"/>
+      <text x="1080" y="450" font-family="Figtree, sans-serif" font-size="42"
+            font-weight="600" text-anchor="middle" fill="white">WORD_HIGH_2</text>
+
+      <!-- Low-probability pills (gray, small) -->
+      <rect x="160" y="524" width="240" height="80" rx="40" fill="#D1D4D8"/>
+      <text x="280" y="572" font-family="Figtree, sans-serif" font-size="28"
+            font-weight="600" text-anchor="middle" fill="#4C5661">WORD_LOW_1</text>
+
+      <rect x="440" y="524" width="240" height="80" rx="40" fill="#D1D4D8"/>
+      <text x="560" y="572" font-family="Figtree, sans-serif" font-size="28"
+            font-weight="600" text-anchor="middle" fill="#4C5661">WORD_LOW_2</text>
+
+      <rect x="720" y="524" width="240" height="80" rx="40" fill="#D1D4D8"/>
+      <text x="840" y="572" font-family="Figtree, sans-serif" font-size="28"
+            font-weight="600" text-anchor="middle" fill="#4C5661">WORD_LOW_3</text>
+
+      <!-- Optional 4th low pill — delete if only 3 -->
+      <rect x="1000" y="524" width="280" height="80" rx="40" fill="#D1D4D8"/>
+      <text x="1140" y="572" font-family="Figtree, sans-serif" font-size="28"
+            font-weight="600" text-anchor="middle" fill="#4C5661">WORD_LOW_4</text>
+
+      <!-- Legend -->
+      <rect x="434" y="622" width="28" height="28" rx="4" fill="#8C52BA"/>
+      <text x="472" y="642" font-family="Figtree, sans-serif" font-size="20" fill="#292F36">High probability</text>
+      <rect x="710" y="622" width="28" height="28" rx="4" fill="#D1D4D8"/>
+      <text x="748" y="642" font-family="Figtree, sans-serif" font-size="20" fill="#292F36">Low probability</text>
+
+    </svg>
+  </div>
+
+  <!-- Delete this element if no annotation needed -->
+  <p class="annotation">ANNOTATION</p>
+
+  <!-- Boilerplate: do not modify -->
+  <script>
+    function resize() {
+      document.documentElement.style.transform = `scale(${window.innerWidth / 1600})`;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
+</body>
+</html>
