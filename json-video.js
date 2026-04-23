@@ -279,6 +279,9 @@ export class JsonVideo extends HTMLElement {
             <html>
             <head>
                 <style>
+                    *, *::before, *::after {
+                        box-sizing: border-box;
+                    }
                     body { margin: 0; overflow: hidden; background: transparent; }
                 </style>
             </head>
