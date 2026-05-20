@@ -118,14 +118,13 @@ async captureAndEncode(statusCallback) {
                     
                     // We only clone DOM ONCE per tick, even if we are filling 5 frames.
                     if (!capturedClone) {
-                        const iframe = this.player.shadowRoot.querySelector('#scene-renderer');
-                        const doc = iframe.contentDocument;
-                        if (doc) {
-                            capturedClone = doc.body.cloneNode(true);
-                            capturedStyles = Array.from(doc.querySelectorAll('style, link[rel="stylesheet"]'))
-                                .map(el => el.outerHTML)
-                                .join('');
-                            capturedSignature = capturedClone.innerHTML;
+                        const capture = this.player._lastCaptureData;
+                        if (capture) {
+                            const div = document.createElement('div');
+                            div.innerHTML = capture.body;
+                            capturedClone = div;
+                            capturedStyles = capture.styles;
+                            capturedSignature = capture.body;
                         }
                     }
 
