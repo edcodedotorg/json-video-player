@@ -31,9 +31,8 @@ export class JsonVideo extends HTMLElement {
         this._mainAudioResumeTime = 0;
 
         this._lastCaptureData = null;
-        this._captureToken = crypto.randomUUID();
         this._onCaptureMessage = (e) => {
-            if (e.data?.type === 'jsonVideoCapture' && e.data?.token === this._captureToken) {
+            if (e.source === this.renderer?.contentWindow && e.data?.type === 'jsonVideoCapture') {
                 this._lastCaptureData = { body: e.data.body, styles: e.data.styles };
             }
         };
@@ -316,11 +315,10 @@ export class JsonVideo extends HTMLElement {
     </style>
     <script>
     (function() {
-        var t = ${JSON.stringify(this._captureToken)};
         function report() {
             var s = Array.from(document.querySelectorAll('style,link[rel="stylesheet"]'))
                 .map(function(el) { return el.outerHTML; }).join('');
-            window.parent.postMessage({ type: 'jsonVideoCapture', token: t, body: document.body.innerHTML, styles: s }, '*');
+            window.parent.postMessage({ type: 'jsonVideoCapture', body: document.body.innerHTML, styles: s }, '*');
         }
         document.addEventListener('DOMContentLoaded', function() {
             report();
