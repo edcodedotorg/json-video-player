@@ -29,7 +29,14 @@ export class JsonVideo extends HTMLElement {
 
         this._mainAudioPausedByScene = false;
         this._mainAudioResumeTime = 0;
-        
+
+        this._lastCaptureData = null;
+        this._onCaptureMessage = (e) => {
+            if (e.source === this.renderer?.contentWindow && e.data?.type === 'jsonVideoCapture') {
+                this._lastCaptureData = { body: e.data.body, styles: e.data.styles };
+            }
+        };
+        window.addEventListener('message', this._onCaptureMessage);
 
         this._setupDOM();
     }
@@ -41,7 +48,7 @@ export class JsonVideo extends HTMLElement {
         container.id = 'video-container';
 
         container.innerHTML = `
-            <iframe id="scene-renderer" src="about:blank" scrolling="no"></iframe>
+            <iframe id="scene-renderer" src="about:blank" scrolling="no" sandbox="allow-scripts"></iframe>
             <div id="closed-caption-overlay" class="hidden"><span class="cc-text"></span></div>
             <div id="controls-bar">
                 <div id="progress-container">
@@ -241,6 +248,7 @@ export class JsonVideo extends HTMLElement {
     disconnectedCallback() {
         document.removeEventListener('fullscreenchange', this._onFullscreenChange);
         document.removeEventListener('webkitfullscreenchange', this._onFullscreenChange);
+        window.removeEventListener('message', this._onCaptureMessage);
     }
 
     _calculateDurations() {
@@ -298,20 +306,29 @@ export class JsonVideo extends HTMLElement {
                 URL.revokeObjectURL(this._currentBlobUrl);
             }
 
-            const blob = new Blob([`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>
-                    *, *::before, *::after {
-                        box-sizing: border-box;
-                    }
-                    body { margin: 0; overflow: hidden; background: transparent; }
-                </style>
-            </head>
-            <body>${scene.html}</body>
-            </html>
-        `], { type: 'text/html' });
+            const blob = new Blob([`<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; overflow: hidden; background: transparent; }
+    </style>
+    <script>
+    (function() {
+        function report() {
+            var s = Array.from(document.querySelectorAll('style,link[rel="stylesheet"]'))
+                .map(function(el) { return el.outerHTML; }).join('');
+            window.parent.postMessage({ type: 'jsonVideoCapture', body: document.body.innerHTML, styles: s }, '*');
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            report();
+            new MutationObserver(report).observe(document.body, { childList: true, subtree: true, attributes: true, characterData: true });
+        });
+    })();
+    </script>
+</head>
+<body>${scene.html}</body>
+</html>`], { type: 'text/html' });
 
             this._currentBlobUrl = URL.createObjectURL(blob);
             this.renderer.src = this._currentBlobUrl;
