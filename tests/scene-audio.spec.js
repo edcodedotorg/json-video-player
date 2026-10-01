@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { test, expect } from '@playwright/test';
 
 // Scene audio must follow the player's own play/pause state, not only
@@ -5,26 +7,11 @@ import { test, expect } from '@playwright/test';
 // scene (no top-level `audio` track) used to stay silent until the
 // user scrubbed, because play() only resumed the main track.
 
-// 8 kHz 8-bit mono silence, as a data URI the <audio> can decode.
-function silentWavDataUri(seconds) {
-  const sampleRate = 8000;
-  const samples = sampleRate * seconds;
-  const buf = Buffer.alloc(44 + samples, 0x80);
-  buf.write('RIFF', 0);
-  buf.writeUInt32LE(36 + samples, 4);
-  buf.write('WAVE', 8);
-  buf.write('fmt ', 12);
-  buf.writeUInt32LE(16, 16);
-  buf.writeUInt16LE(1, 20); // PCM
-  buf.writeUInt16LE(1, 22); // mono
-  buf.writeUInt32LE(sampleRate, 24);
-  buf.writeUInt32LE(sampleRate, 28);
-  buf.writeUInt16LE(1, 32);
-  buf.writeUInt16LE(8, 34);
-  buf.write('data', 36);
-  buf.writeUInt32LE(samples, 40);
-  return 'data:audio/wav;base64,' + buf.toString('base64');
-}
+// One scene's narration from a real lesson export, about 17 s long, as the
+// data URI the pipeline emits.
+const narrationDataUri =
+  'data:audio/mpeg;base64,' +
+  fs.readFileSync(path.join(__dirname, 'fixtures', 'narration.mp3')).toString('base64');
 
 function sceneAudioState(page) {
   return page.evaluate(() => {
@@ -46,7 +33,7 @@ const scene = (label) => ({
   duration: '30s',
   speech: label,
   html: `<h1>${label}</h1>`,
-  audio: silentWavDataUri(12),
+  audio: narrationDataUri,
 });
 
 test.describe('per-scene audio', () => {
