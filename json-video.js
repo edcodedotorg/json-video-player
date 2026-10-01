@@ -293,6 +293,33 @@ export class JsonVideo extends HTMLElement {
                 this._mainAudioPausedByScene = false;
             }
         }
+        this._syncSceneAudio();
+    }
+
+    // Runs on play() too, not only on scene changes and seeks.
+    _syncSceneAudio() {
+        const scene = this._processedScenes[this._currentSceneIndex];
+        if (!scene?.audio) {
+            this._sceneAudio.pause();
+            return;
+        }
+
+        if (this._sceneAudio.getAttribute('src') !== scene.audio) {
+            this._sceneAudio.src = scene.audio;
+            this._sceneAudio.load();
+        }
+
+        const sceneTime = (this._currentTimeMs - scene.startTimeMs) / 1000;
+        // Only sync if the drift is significant (>200ms)
+        try {
+            if (Math.abs(this._sceneAudio.currentTime - sceneTime) > 0.2) {
+                this._sceneAudio.currentTime = Math.max(0, sceneTime);
+            }
+        } catch (e) { }
+
+        if (this._isPlaying) {
+            this._sceneAudio.play().catch(() => { });
+        }
     }
 
     _renderCurrentScene() {
@@ -341,26 +368,7 @@ export class JsonVideo extends HTMLElement {
         this.ccOverlay.classList.toggle('hidden', !(this._showCaptions && scene.speech));
 
         // 3. Handle Audio Synchronization
-        const sceneTime = (this._currentTimeMs - scene.startTimeMs) / 1000;
-        if (scene.audio) {
-            if (this._sceneAudio.getAttribute('src') !== scene.audio) {
-                this._sceneAudio.src = scene.audio;
-                this._sceneAudio.load();
-            }
-
-            // Only sync if the drift is significant (>200ms)
-            try {
-                if (Math.abs(this._sceneAudio.currentTime - sceneTime) > 0.2) {
-                    this._sceneAudio.currentTime = Math.max(0, sceneTime);
-                }
-            } catch (e) { }
-
-            if (this._isPlaying) {
-                this._sceneAudio.play().catch(() => { });
-            }
-        } else {
-            this._sceneAudio.pause();
-        }
+        this._syncSceneAudio();
     }
 }
 customElements.define('json-video', JsonVideo);
