@@ -13,18 +13,21 @@ const narrationDataUri =
   'data:audio/mpeg;base64,' +
   fs.readFileSync(path.join(__dirname, 'fixtures', 'narration.mp3')).toString('base64');
 
-function sceneAudioState(page) {
-  return page.evaluate(() => {
-    const a = document.getElementById('player')._sceneAudio;
-    return { paused: a.paused, currentTime: a.currentTime, src: a.getAttribute('src')?.slice(0, 14) };
-  });
+function audioState(page, which) {
+  return page.evaluate((which) => {
+    const a = document.getElementById('player')[which];
+    return { paused: a.paused, currentTime: a.currentTime, src: a.getAttribute('src')?.slice(0, 14) ?? null };
+  }, which);
 }
+const sceneAudioState = (page) => audioState(page, '_sceneAudio');
+const mainAudioState = (page) => audioState(page, '_mainAudio');
 
-async function loadProject(page, project) {
-  await page.goto('/');
+// Waits for the new project's total duration, so a reload into an
+// already-loaded player is observed and not the previous video.
+async function loadProject(page, project, expectedSeconds) {
   await page.locator('#video-json').fill(JSON.stringify(project));
   await page.getByRole('button', { name: 'Render in Player' }).click();
-  await expect.poll(() => page.evaluate(() => document.getElementById('player').duration)).toBeGreaterThan(0);
+  await expect.poll(() => page.evaluate(() => document.getElementById('player').duration)).toBe(expectedSeconds);
 }
 
 // Scenes are long enough that no scene boundary (which also starts scene
@@ -38,7 +41,8 @@ const scene = (label) => ({
 
 test.describe('per-scene audio', () => {
   test('starts when play is pressed on a fresh load', async ({ page }) => {
-    await loadProject(page, { scenes: [scene('one'), scene('two')] });
+    await page.goto('/');
+    await loadProject(page, { scenes: [scene('one'), scene('two')] }, 60);
 
     const playBtn = page.locator('#player').locator('#play-btn');
     await playBtn.click();
@@ -49,7 +53,8 @@ test.describe('per-scene audio', () => {
   });
 
   test('resumes after pause within the same scene', async ({ page }) => {
-    await loadProject(page, { scenes: [scene('one'), scene('two')] });
+    await page.goto('/');
+    await loadProject(page, { scenes: [scene('one'), scene('two')] }, 60);
     const playBtn = page.locator('#player').locator('#play-btn');
 
     await playBtn.click();
@@ -65,12 +70,55 @@ test.describe('per-scene audio', () => {
   });
 
   test('stops when the player is paused', async ({ page }) => {
-    await loadProject(page, { scenes: [scene('one')] });
+    await page.goto('/');
+    await loadProject(page, { scenes: [scene('one')] }, 30);
     const playBtn = page.locator('#player').locator('#play-btn');
 
     await playBtn.click();
     await expect.poll(async () => (await sceneAudioState(page)).paused).toBe(false);
     await playBtn.click();
     await expect.poll(async () => (await sceneAudioState(page)).paused).toBe(true);
+  });
+});
+
+// Loading a new video into a player that already played one must not
+// carry the old video's tracks across.
+test.describe('switching videos', () => {
+  const sceneOnly = { scenes: [scene('one'), scene('two')] };
+  const mainOnly = {
+    audio: narrationDataUri,
+    scenes: [{ duration: '30s', speech: 'main', html: '<h1>main</h1>' }],
+  };
+
+  test('main track of the previous video does not play under a scene-audio video', async ({ page }) => {
+    await page.goto('/');
+    const playBtn = page.locator('#player').locator('#play-btn');
+
+    await loadProject(page, mainOnly, 30);
+    await playBtn.click();
+    await expect.poll(async () => (await mainAudioState(page)).currentTime).toBeGreaterThan(0.1);
+
+    await loadProject(page, sceneOnly, 60);
+    expect(await mainAudioState(page)).toMatchObject({ paused: true, src: null });
+
+    await playBtn.click();
+    await expect.poll(async () => (await sceneAudioState(page)).currentTime).toBeGreaterThan(0.1);
+    expect(await mainAudioState(page)).toMatchObject({ paused: true, src: null });
+  });
+
+  test('scene track of the previous video does not play under a main-audio video', async ({ page }) => {
+    await page.goto('/');
+    const playBtn = page.locator('#player').locator('#play-btn');
+
+    await loadProject(page, sceneOnly, 60);
+    await playBtn.click();
+    await expect.poll(async () => (await sceneAudioState(page)).currentTime).toBeGreaterThan(0.1);
+
+    await loadProject(page, mainOnly, 30);
+    expect(await sceneAudioState(page)).toMatchObject({ paused: true, src: null });
+
+    await playBtn.click();
+    await expect.poll(async () => (await mainAudioState(page)).currentTime).toBeGreaterThan(0.1);
+    expect(await sceneAudioState(page)).toMatchObject({ paused: true, src: null });
   });
 });
